@@ -1,5 +1,8 @@
 <?php 
-
+session_start();
+if(isset($_SESSION["login"])) {
+    header("Location: index.php");
+}
 require 'functions.php';
 
 if(isset($_POST["login"])) {
@@ -14,6 +17,8 @@ if(isset($_POST["login"])) {
         //check password
         $row = mysqli_fetch_assoc($result);
         if(password_verify($password, $row["password"])) {
+            //set session agar user harus login sebelum melihat halaman lain
+            $_SESSION["login"] = true;
             header("Location: index.php");
             exit;
         };

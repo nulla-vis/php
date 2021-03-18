@@ -35,7 +35,7 @@ if( isset($_POST["cari"]) ) {
         <tr>
             <th>No.</th>
             <th>Aksi</th>
-            <th>Gambar</th>
+            <th>Foto</th>
             <th>NRP</th>
             <th>Nama</th>
             <th>Email</th>

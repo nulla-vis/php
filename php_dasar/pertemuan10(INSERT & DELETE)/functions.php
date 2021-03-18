@@ -62,4 +62,18 @@ function ubah($data,$id) {
 
     return mysqli_affected_rows($conn);
 }
+
+function cari($keyword) {
+    global $conn;
+    //variabel query baru untuk search--------------------------------------------
+    $query = " SELECT * FROM mahasiswa
+        WHERE
+        nama LIKE '%$keyword%' OR
+        nrp LIKE '%$keyword%' OR
+        email LIKE '%$keyword%' OR
+        jurusan LIKE '%$keyword%'
+    ";
+    
+    return query($query);
+}
 ?>

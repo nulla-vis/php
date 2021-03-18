@@ -3,7 +3,10 @@ require 'functions.php';
 //check tombol submit sudah ditekan / belum-----------------------------------------------------
 if( isset($_POST["submit"]) ) {
     // var_dump($_POST);
-    //cek apakah data berhasil ditambah ke database / tidak
+    // echo "<br>";
+    // var_dump($_FILES);
+    // die; 
+    //cek apakah data berhasil ditambah ke database / tidak-------------------------------------
     if(tambah($_POST) > 0) {
         echo "
         <script>
@@ -44,7 +47,7 @@ if( isset($_POST["submit"]) ) {
 <body>
     <h1>Tambah Data Mahasiswa</h1>
 
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <ul>
             <li>
                 <label for="nrp">NRP : </label>
@@ -64,7 +67,7 @@ if( isset($_POST["submit"]) ) {
             </li>
             <li>
                 <label for="foto">Foto : </label>
-                <input type="text" name="foto" id="foto" required>
+                <input type="file" name="foto" id="foto">
             </li>
             <li>
                 <button type="submit" name="submit">Tambah data!</button>

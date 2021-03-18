@@ -1,9 +1,25 @@
 <?php 
 session_start();
+require 'functions.php';
+// check cookie------------------------------------------------------------------------------------
+if(isset($_COOKIE["wkwk"]) && isset($_COOKIE["wkwk2"])) {
+    $id = $_COOKIE["wkwk"];
+    $key = $_COOKIE["wkwk2"];
+
+    //ambil username berdasarkan id;
+    $result = mysqli_query($conn , "SELECT username FROM user where id = $id");
+    $row = mysqli_fetch_assoc($result);
+
+    //check cookie dan username
+    if ($key === hash("sha256",$row["username"])) {
+        $_SESSION["login"] = true;
+    }
+}
+
+//check session-------------------------------------------------------------------------------------
 if(isset($_SESSION["login"])) {
     header("Location: index.php");
 }
-require 'functions.php';
 
 if(isset($_POST["login"])) {
     
@@ -19,6 +35,14 @@ if(isset($_POST["login"])) {
         if(password_verify($password, $row["password"])) {
             //set session agar user harus login sebelum melihat halaman lain
             $_SESSION["login"] = true;
+
+            //remember me di check/tidak
+            if(isset($_POST["remember"])) {
+                //buat cookie
+                setcookie("wkwk",$row["id"],time()+60); //id
+                setcookie("wkwk2",hash("sha256",$row["username"]),time()+60); //key
+            }
+
             header("Location: index.php");
             exit;
         };
@@ -57,6 +81,10 @@ if(isset($_POST["login"])) {
             <li>
                 <label for="password">password : </label>
                 <input type="password" name="password" id="password" required autocomplete="off">
+            </li>
+            <li>
+                <input type="checkbox" name="remember" id="remember" autocomplete="off">
+                <label for="remember">remember me</label>
             </li>
             <li>
                 <button type="submit" name="login">login</button>

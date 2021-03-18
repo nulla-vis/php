@@ -12,7 +12,8 @@ $mhs = query("SELECT * FROM mahasiswa WHERE id = $id")[0];
 if( isset($_POST["submit"]) ) {
     // var_dump($_POST);
     //cek apakah data berhasil diubah ke database / tidak
-    if(ubah($_POST,$id) > 0) {
+    if(ubah($_POST) > 0) {
+        
         echo "
         <script>
             alert('data berhasil diubah');
@@ -52,8 +53,9 @@ if( isset($_POST["submit"]) ) {
 <body>
     <h1>Ubah Data Mahasiswa</h1>
 
-    <form action="" method="post">
-        <!-- <input type="hidden" name="id" value="<?= $mhs["id"] ?>"> -->
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<?= $mhs["id"]; ?>">
+        <input type="hidden" name="fotoLama" value="<?= $mhs["foto"]; ?>">
         <ul>
             <li>
                 <label for="nrp">NRP : </label>
@@ -72,8 +74,9 @@ if( isset($_POST["submit"]) ) {
                 <input type="text" name="jurusan" id="jurusan" required value="<?= $mhs["jurusan"] ?>"> 
             </li>
             <li>
-                <label for="foto">Foto : </label>
-                <input type="text" name="foto" id="foto" required value="<?= $mhs["foto"] ?>">
+                <label for="foto">Foto : </label><br>
+                <img src="img/<?= $mhs['foto'] ?>" width="50" alt=""><br>
+                <input type="file" name="foto" id="foto">
             </li>
             <li>
                 <button type="submit" name="submit">Ubah data!</button>

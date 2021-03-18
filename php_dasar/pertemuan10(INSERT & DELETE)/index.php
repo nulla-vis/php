@@ -1,7 +1,15 @@
 <?php 
 require 'functions.php';
+
+//query data dari database--------------------------------------------------------------------------------------------------------
 $mahasiswa = query("SELECT * FROM mahasiswa");
 // var_dump($mahasiswa[0]);
+
+//jika tombol cari diclick, data di variable $mahasiswa akan ditimpa sesuai keyword pencatian-------------------------------------
+if( isset($_POST["cari"]) ) {
+    $mahasiswa = cari($_POST["keyword"]);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +20,17 @@ $mahasiswa = query("SELECT * FROM mahasiswa");
     <title>Halaman Admin</title>
 </head>
 <body>
+
     <h1>Daftar Mahasiswa</h1>
 
     <a href="tambah.php">Tambah data mahasiswa</a>
     <br><br>
 
+    <form action="" method="post">
+    <input type="text" name="keyword" size="40" autofocus placeholder="input search keyword" autocomplete="off">
+    <button type="submit" name="cari">Cari</button>
+    <br><br>
+</form>
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
             <th>No.</th>
@@ -44,5 +58,7 @@ $mahasiswa = query("SELECT * FROM mahasiswa");
         <?php $i++; ?>
         <?php endforeach ?>
     </table>
+
+
 </body>
 </html>

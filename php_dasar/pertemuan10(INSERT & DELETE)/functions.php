@@ -80,7 +80,7 @@ function ubah($data) {
 
 //query read(search) data===================================================================
 function cari($keyword) {
-    global $conn;
+    $jumlahDataPerhalaman = 3;
     //variabel query baru untuk search--------------------------------------------
     $query = " SELECT * FROM mahasiswa
         WHERE
@@ -89,8 +89,28 @@ function cari($keyword) {
         email LIKE '%$keyword%' OR
         jurusan LIKE '%$keyword%'
     ";
-    
-    return query($query);
+
+    $jumlahData = count(query($query));
+    $jumlahHalaman = ceil($jumlahData/$jumlahDataPerhalaman);
+    $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1 ;
+    $awalData = ($jumlahDataPerhalaman * $halamanAktif) - $jumlahDataPerhalaman;
+
+    $query = " SELECT * FROM mahasiswa
+        WHERE
+        nama LIKE '%$keyword%' OR
+        nrp LIKE '%$keyword%' OR
+        email LIKE '%$keyword%' OR
+        jurusan LIKE '%$keyword%'
+        LIMIT $awalData,$jumlahDataPerhalaman
+    ";
+
+    return [
+        "query"=>query($query),
+        "jumlahHalaman" => $jumlahHalaman,
+        "halamanAktif" => $halamanAktif,
+        "awalData" => $awalData,
+        "cek" => $_GET["halaman"]
+    ];
 }
 
 //upload picture============================================================================
@@ -190,5 +210,31 @@ function registrasi($data) {
     
     return mysqli_affected_rows($conn);
 }
+function pagination(){
+    //pagination---------------------------------------------------------------------------------------------------------------------
+    $jumlahDataPerhalaman = 3;
+    //algoritma $awalData
+    //HALAMAN 1 = awaldata = 0
+    //HALAMAN 2 = awaldata = 3
+    //HALAMAN 3 = awaldata = 6
+    //HALAMAN 4 = awaldata = 9
 
+    //jumlah halaman = total data/data per halaman
+    //jumlah halaman = 10/2 = 5 halaman
+    // $result = mysqli_query($conn,"SELECT * FROM mahasiswa");
+    // $jumlahData = mysqli_num_rows($result);
+
+    $jumlahData = count(query("SELECT * FROM mahasiswa"));
+    // var_dump($jumlahData);
+    $jumlahHalaman = ceil($jumlahData/$jumlahDataPerhalaman); //pembulatan ke atas
+    $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1 ; //(condition) ?=if valueifTRUE : valueifFAlse
+    $awalData = ($jumlahDataPerhalaman * $halamanAktif) - $jumlahDataPerhalaman;
+    
+    return [
+        "query" =>query("SELECT * FROM mahasiswa LIMIT $awalData,$jumlahDataPerhalaman"), //LIMIT start index, banyak data yang mau ditunjukkan
+        "jumlahHalaman" => $jumlahHalaman,
+        "halamanAktif" => $halamanAktif,
+        "awalData" => $awalData
+    ];
+}
 ?>

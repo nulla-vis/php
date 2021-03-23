@@ -25,6 +25,18 @@ if( isset($_POST["cari"]) ) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Admin</title>
+    <style>
+        .loader {
+            width: 100px;
+            position: absolute;
+            top: 116px;
+            z-index: -1;
+            left: 270px;
+            display: none;
+        }
+    </style>
+    <script src="js/jquery-3.5.1.min.js"></script> 
+    <script src="js/script1.js"></script>
 </head>
 <body>
 
@@ -34,14 +46,19 @@ if( isset($_POST["cari"]) ) {
 
     <a href="tambah.php">Tambah data mahasiswa</a>
     <br><br>
+<!-- form pencarian====================================================================================================== -->
 
     <form action="" method="post">
         <input type="text" name="keyword" size="40" placeholder="input search keyword" autocomplete="off" id="keyword">
         <button type="submit" name="cari" id="tombol-cari">Cari</button>
 
+        <img src="img/loader2.gif" class="loader">
+
+<!-- ==================================================================================================================== -->
     </form>
 
     <br><br>
+
     <div id="container">
         <table border="1" cellpadding="10" cellspacing="0">
             <tr>
@@ -71,6 +88,6 @@ if( isset($_POST["cari"]) ) {
             <?php endforeach ?>
         </table>
     </div>
-<script src="js/script.js"></script>
+
 </body>
 </html>

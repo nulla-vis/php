@@ -1,7 +1,9 @@
 <?php 
+// sleep(1);
 require "../functions.php";
 
 $keyword = $_GET["keyword"]; //sended by ajax :)
+
 $query = " SELECT * FROM mahasiswa
             WHERE
             nama LIKE '%$keyword%' OR
@@ -14,7 +16,7 @@ $mahasiswa = query($query);
 // var_dump($mahasiswa);
 
 ?>
-<?php if(count($mahasiswa) > 0) : ?>
+<?php if(count($mahasiswa) > 0 ) : ?>
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
             <th>No.</th>
